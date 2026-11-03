@@ -4,12 +4,15 @@ import { ToastHost } from './components/ToastHost'
 import { SettingsView } from './views/SettingsView'
 import { StatsView } from './views/StatsView'
 import { TodayView } from './views/TodayView'
+import { useStore } from './lib/store'
+import { useApplyTheme } from './lib/theme'
 
 export type View = 'today' | 'stats' | 'settings'
 const fromHash = (): View => (['stats', 'settings'].includes(location.hash.slice(1)) ? (location.hash.slice(1) as View) : 'today')
 
 export default function App() {
   const [view, setView] = useState<View>(fromHash)
+  useApplyTheme(useStore().settings.theme)
   useEffect(() => {
     const on = () => setView(fromHash())
     window.addEventListener('hashchange', on)

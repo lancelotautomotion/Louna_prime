@@ -13,7 +13,7 @@ import { toast } from '../lib/toast'
 import { keyToPad, useAmountInput } from '../lib/useAmountInput'
 
 export function TodayView() {
-  const { sales, settings } = useStore()
+  const { sales, settings, profile } = useStore()
   const today = dayKey()
   const todays = useMemo(() => sales.filter((s) => dayKey(s.ts) === today), [sales, today])
   const sum = useMemo(() => summarize(todays), [todays])
@@ -62,7 +62,9 @@ export function TodayView() {
       {/* ───── Colonne saisie ───── */}
       <div className="lg:sticky lg:top-24 space-y-3">
         <header className="px-1 pt-1 lg:pt-0">
-          <p className="text-[13px] font-semibold uppercase tracking-wide text-label-2">{fmtDayLong(today)} · Primes du jour</p>
+          <p className="text-[13px] font-semibold uppercase tracking-wide text-label-2">
+            {profile.firstName ? `Bonjour ${profile.firstName} · ` : ''}{fmtDayLong(today)}
+          </p>
           <div className="flex items-center justify-between gap-4">
             <div>
               <h1 className="sr-only">Primes du jour</h1>

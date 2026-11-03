@@ -1,11 +1,12 @@
-import { Database, Download, FileSpreadsheet, Minus, Plus, Share, Smartphone, Trash2, Upload } from 'lucide-react'
-import { useRef, type ReactNode } from 'react'
+import { ChevronRight, Database, Download, FileSpreadsheet, Minus, Monitor, Moon, Plus, Share, Smartphone, Sun, Trash2, Upload } from 'lucide-react'
+import { useRef, useState, type ReactNode } from 'react'
+import { Avatar, ProfileSheet } from '../components/ProfileSheet'
 import { Card, SectionTitle } from '../components/ui'
 import { exportBackup, exportCsv } from '../lib/export'
 import { dayKey, fmtEuros } from '../lib/format'
 import { tap } from '../lib/haptics'
 import { isIOS, isStandalone, useInstall } from '../lib/install'
-import { actions, useStore } from '../lib/store'
+import { actions, useStore, type Theme } from '../lib/store'
 import { toast } from '../lib/toast'
 import { TIERS } from '../lib/bonus'
 
@@ -13,7 +14,7 @@ function Row({ icon, label, children, onClick, danger }: { icon?: ReactNode; lab
   const Tag = onClick ? 'button' : 'div'
   return (
     <Tag onClick={onClick} className={`w-full flex items-center gap-3 px-4 min-h-[52px] text-left ${onClick ? 'active:bg-fill transition-colors' : ''} ${danger ? 'text-red' : ''}`}>
-      {icon && <span className={`shrink-0 ${danger ? '' : 'text-accent'}`}>{icon}</span>}
+      {icon && <span className={`shrink-0 ${danger ? '' : 'text-accent-text'}`}>{icon}</span>}
       <span className="flex-1 text-[16px]">{label}</span>
       {children}
     </Tag>
@@ -30,8 +31,16 @@ function Stepper({ value, step, onChange }: { value: number; step: number; onCha
   )
 }
 
+const THEMES: { id: Theme; label: string; Icon: typeof Sun }[] = [
+  { id: 'auto', label: 'Auto', Icon: Monitor },
+  { id: 'light', label: 'Clair', Icon: Sun },
+  { id: 'dark', label: 'Sombre', Icon: Moon },
+]
+
 export function SettingsView() {
-  const { sales, settings } = useStore()
+  const { sales, settings, profile } = useStore()
+  const [editProfile, setEditProfile] = useState(false)
+  const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(' ')
   const file = useRef<HTMLInputElement>(null)
   const install = useInstall()
   const standalone = isStandalone()
@@ -48,6 +57,36 @@ export function SettingsView() {
   return (
     <div className="view-enter max-w-[620px] mx-auto">
       <h1 className="text-[34px] font-bold tracking-tight px-1 pt-2">Réglages</h1>
+
+      <Card className="mt-5 overflow-hidden">
+        <button onClick={() => setEditProfile(true)} className="w-full flex items-center gap-4 p-4 text-left active:bg-fill transition-colors">
+          <Avatar profile={profile} />
+          <span className="flex-1 min-w-0">
+            <span className="block text-[20px] font-semibold truncate">{fullName || 'Configurer mon profil'}</span>
+            <span className="block text-[14px] text-label-2 truncate">
+              {fullName ? [profile.store, profile.employeeId && `Matricule ${profile.employeeId}`].filter(Boolean).join(' · ') || 'Ajouter un magasin' : 'Nom, magasin, matricule'}
+            </span>
+          </span>
+          <ChevronRight size={18} className="text-label-3" />
+        </button>
+      </Card>
+
+      <SectionTitle>Apparence</SectionTitle>
+      <Card className="p-1.5">
+        <div className="grid grid-cols-3 gap-1" role="radiogroup" aria-label="Thème">
+          {THEMES.map(({ id, label, Icon }) => {
+            const on = settings.theme === id
+            return (
+              <button key={id} role="radio" aria-checked={on} onClick={() => { tap(); actions.setSettings({ theme: id }) }}
+                className={`press flex flex-col items-center gap-1 rounded-[20px] py-3 text-[14px] font-medium transition-colors
+                  ${on ? 'bg-accent text-white' : 'text-label-2 hover:text-label'}`}>
+                <Icon size={20} strokeWidth={on ? 2.4 : 2} />{label}
+              </button>
+            )
+          })}
+        </div>
+      </Card>
+      <p className="text-[12px] text-label-3 px-1 mt-2">« Auto » suit le réglage clair/sombre de l'appareil.</p>
 
       <SectionTitle>Objectifs</SectionTitle>
       <Card className="divide-y divide-separator overflow-hidden">
@@ -73,7 +112,7 @@ export function SettingsView() {
               <Row icon={<Smartphone size={20} />} label="Ajouter à l'écran d'accueil" onClick={install.prompt} />
             ) : (
               <div className="flex gap-3 px-4 py-3.5 text-[14px] text-label-2">
-                <Share size={20} className="text-accent shrink-0 mt-0.5" />
+                <Share size={20} className="text-accent-text shrink-0 mt-0.5" />
                 <p>{isIOS() ? <>Dans Safari, touchez <b className="text-label">Partager</b> puis <b className="text-label">Sur l'écran d'accueil</b>.</> : <>Ouvrez le menu du navigateur puis <b className="text-label">Installer l'application</b>.</>} L'app fonctionne ensuite hors ligne.</p>
               </div>
             )}
@@ -96,6 +135,7 @@ export function SettingsView() {
           if (confirm(`Supprimer définitivement ${sales.length} ventes ? Pensez à sauvegarder avant.`)) { actions.wipe(); toast('Données effacées') }
         }} />
       </Card>
+      <ProfileSheet open={editProfile} profile={profile} onClose={() => setEditProfile(false)} />
       <input ref={file} type="file" accept="application/json,.json" hidden onChange={(e) => onImport(e.target.files?.[0])} />
 
       <p className="flex items-center justify-center gap-1.5 text-[12px] text-label-3 mt-6 mb-4">

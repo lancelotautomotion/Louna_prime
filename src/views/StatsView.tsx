@@ -60,7 +60,7 @@ export function StatsView() {
         </button>
         <div className="text-center">
           <h1 className="text-[22px] font-bold tracking-tight">{fmtMonth(mk)}</h1>
-          {!isCurrent && <button onClick={() => { const d = new Date(); setCursor(new Date(d.getFullYear(), d.getMonth(), 1)) }} className="text-[13px] text-accent font-medium">Revenir à ce mois</button>}
+          {!isCurrent && <button onClick={() => { const d = new Date(); setCursor(new Date(d.getFullYear(), d.getMonth(), 1)) }} className="text-[13px] text-accent-text font-medium">Revenir à ce mois</button>}
         </div>
         <button onClick={() => shift(1)} disabled={isCurrent} aria-label="Mois suivant"
           className="press glass h-10 w-10 rounded-full flex items-center justify-center disabled:opacity-30">
@@ -115,7 +115,7 @@ export function StatsView() {
 
         <div>
           <SectionTitle right={monthSales.length > 0 && (
-            <button onClick={() => exportCsv(monthSales, mk)} className="press text-[14px] text-accent font-medium flex items-center gap-1">
+            <button onClick={() => exportCsv(monthSales, mk)} className="press text-[14px] text-accent-text font-medium flex items-center gap-1">
               <Download size={15} /> CSV
             </button>
           )}>Calendrier</SectionTitle>
@@ -130,15 +130,15 @@ export function StatsView() {
                 const has = byDay.has(k)
                 const future = k > todayKey
                 const isSel = k === sel
-                const intensity = p ? 0.15 + 0.6 * (p / maxDay) : 0
+                const intensity = p ? 0.3 + 0.7 * (p / maxDay) : 0
                 return (
                   <button key={k} disabled={future} onClick={() => setSelected(isSel ? null : k)}
                     aria-label={`${fmtDayLong(k)}${has ? `, ${p} euros de primes` : ''}`}
                     className={`press aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors
                       ${isSel ? 'ring-2 ring-accent' : k === todayKey ? 'ring-1 ring-label-3' : ''} ${future ? 'opacity-30' : ''}`}
-                    style={{ background: has ? `color-mix(in srgb, var(--green) ${intensity * 100}%, transparent)` : 'var(--fill)' }}>
+                    style={{ background: has ? `color-mix(in srgb, var(--heat) ${intensity * 100}%, var(--fill))` : 'var(--fill)' }}>
                     <span className={`text-[13px] num ${k === todayKey ? 'font-bold' : 'font-medium'}`}>{Number(k.slice(-2))}</span>
-                    {has && <span className="text-[9.5px] num font-semibold leading-none opacity-80">{p}€</span>}
+                    {has && <span className="text-[10px] num font-semibold leading-none">{p}€</span>}
                   </button>
                 )
               })}

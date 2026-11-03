@@ -1,58 +1,96 @@
 @import "tailwindcss";
 
-/* ───────── Tokens (clair par défaut, sombre automatique) ───────── */
+/* ───────── Tokens ─────────
+   Thème : auto (suit le système) par défaut, forçable via <html data-theme="light|dark">.
+   Tous les textes visent un contraste WCAG AA (≥ 4,5:1) sur leur fond. */
 :root {
   --bg: #f2f2f7;
   --label: #000000;
-  --label-2: rgb(60 60 67 / 0.62);
-  --label-3: rgb(60 60 67 / 0.32);
-  --fill: rgb(120 120 128 / 0.12);
-  --fill-strong: rgb(120 120 128 / 0.2);
-  --separator: rgb(60 60 67 / 0.14);
-  --glass: rgb(255 255 255 / 0.62);
-  --glass-strong: rgb(255 255 255 / 0.82);
+  --label-2: rgb(60 60 67 / 0.86);
+  --label-3: rgb(60 60 67 / 0.8);
+  --fill: rgb(120 120 128 / 0.14);
+  --fill-strong: rgb(120 120 128 / 0.24);
+  --separator: rgb(60 60 67 / 0.16);
+  --glass: rgb(255 255 255 / 0.7);
+  --glass-strong: rgb(255 255 255 / 0.86);
+  --sheet: rgb(242 242 247 / 0.94);
   --glass-edge: rgb(255 255 255 / 0.9);
-  --glass-line: rgb(0 0 0 / 0.06);
+  --glass-line: rgb(0 0 0 / 0.07);
   --shadow: 0 1px 1px rgb(0 0 0 / 0.03), 0 8px 28px -6px rgb(0 0 0 / 0.1);
-  --accent: #007aff;
-  --green: #28a745;
-  --red: #ff3b30;
-  --orb-1: rgb(52 199 89 / 0.28);
-  --orb-2: rgb(0 122 255 / 0.22);
-  --orb-3: rgb(175 82 222 / 0.14);
-  --tier-0: rgb(120 120 128 / 0.55);
-  --tier-1: #30b0c7;
-  --tier-2: #007aff;
-  --tier-3: #af52de;
-  --tier-4: #ff9500;
+  --accent: #0071e3;
+  --accent-text: #0060c7;
+  --green: #198038;
+  --red: #d70015;
+  --heat: #34c759;
+  --orb-1: rgb(52 199 89 / 0.24);
+  --orb-2: rgb(0 122 255 / 0.18);
+  --orb-3: rgb(175 82 222 / 0.12);
+  --tier-0: #5c5c61;
+  --tier-1: #086675;
+  --tier-2: #0060c7;
+  --tier-3: #7d2aa8;
+  --tier-4: #974200;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #000000;
-    --label: #ffffff;
-    --label-2: rgb(235 235 245 / 0.6);
-    --label-3: rgb(235 235 245 / 0.3);
-    --fill: rgb(118 118 128 / 0.24);
-    --fill-strong: rgb(118 118 128 / 0.36);
-    --separator: rgb(84 84 88 / 0.5);
-    --glass: rgb(28 28 30 / 0.55);
-    --glass-strong: rgb(44 44 46 / 0.78);
-    --glass-edge: rgb(255 255 255 / 0.14);
-    --glass-line: rgb(255 255 255 / 0.06);
-    --shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 12px 32px -8px rgb(0 0 0 / 0.6);
-    --accent: #0a84ff;
-    --green: #30d158;
-    --red: #ff453a;
-    --orb-1: rgb(48 209 88 / 0.2);
-    --orb-2: rgb(10 132 255 / 0.2);
-    --orb-3: rgb(191 90 242 / 0.14);
-    --tier-1: #40c8e0;
-    --tier-2: #0a84ff;
-    --tier-3: #bf5af2;
-    --tier-4: #ff9f0a;
-    color-scheme: dark;
+  :root:not([data-theme="light"]) {
+  --bg: #000000;
+  --label: #ffffff;
+  --label-2: rgb(235 235 245 / 0.78);
+  --label-3: rgb(235 235 245 / 0.56);
+  --fill: rgb(118 118 128 / 0.26);
+  --fill-strong: rgb(118 118 128 / 0.4);
+  --separator: rgb(84 84 88 / 0.6);
+  --glass: rgb(28 28 30 / 0.62);
+  --glass-strong: rgb(44 44 46 / 0.8);
+  --sheet: rgb(28 28 30 / 0.95);
+  --glass-edge: rgb(255 255 255 / 0.14);
+  --glass-line: rgb(255 255 255 / 0.08);
+  --shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 12px 32px -8px rgb(0 0 0 / 0.6);
+  --accent: #0071e3;
+  --accent-text: #5eb1ff;
+  --green: #32d74b;
+  --red: #ff6961;
+  --heat: #1c7a31;
+  --orb-1: rgb(48 209 88 / 0.18);
+  --orb-2: rgb(10 132 255 / 0.18);
+  --orb-3: rgb(191 90 242 / 0.12);
+  --tier-0: #aeaeb2;
+  --tier-1: #5ad8ec;
+  --tier-2: #64b0ff;
+  --tier-3: #da8fff;
+  --tier-4: #ffb340;
+  color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --label: #ffffff;
+  --label-2: rgb(235 235 245 / 0.78);
+  --label-3: rgb(235 235 245 / 0.56);
+  --fill: rgb(118 118 128 / 0.26);
+  --fill-strong: rgb(118 118 128 / 0.4);
+  --separator: rgb(84 84 88 / 0.6);
+  --glass: rgb(28 28 30 / 0.62);
+  --glass-strong: rgb(44 44 46 / 0.8);
+  --sheet: rgb(28 28 30 / 0.95);
+  --glass-edge: rgb(255 255 255 / 0.14);
+  --glass-line: rgb(255 255 255 / 0.08);
+  --shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 12px 32px -8px rgb(0 0 0 / 0.6);
+  --accent: #0071e3;
+  --accent-text: #5eb1ff;
+  --green: #32d74b;
+  --red: #ff6961;
+  --heat: #1c7a31;
+  --orb-1: rgb(48 209 88 / 0.18);
+  --orb-2: rgb(10 132 255 / 0.18);
+  --orb-3: rgb(191 90 242 / 0.12);
+  --tier-0: #aeaeb2;
+  --tier-1: #5ad8ec;
+  --tier-2: #64b0ff;
+  --tier-3: #da8fff;
+  --tier-4: #ffb340;
+  color-scheme: dark;
 }
 
 @theme {
@@ -65,13 +103,14 @@
   --color-fill-strong: var(--fill-strong);
   --color-separator: var(--separator);
   --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
   --color-green: var(--green);
   --color-red: var(--red);
   --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* ───────── Base ───────── */
-html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+html { -webkit-text-size-adjust: 100%; background: var(--bg); transition: background-color 300ms; }
 body {
   margin: 0;
   min-height: 100dvh;
@@ -116,13 +155,12 @@ button { cursor: pointer; -webkit-user-select: none; user-select: none; touch-ac
   &:active { transform: scale(0.96); }
 }
 
-.sheet-surface { background: color-mix(in srgb, var(--bg) 88%, transparent); }
-@media (prefers-color-scheme: dark) { .sheet-surface { background: rgb(28 28 30 / 0.92); } }
+.sheet-surface { background: var(--sheet); }
 
 /* Pastilles de palier */
 .tier-0 { --t: var(--tier-0); } .tier-1 { --t: var(--tier-1); } .tier-2 { --t: var(--tier-2); }
 .tier-3 { --t: var(--tier-3); } .tier-4 { --t: var(--tier-4); }
-.chip { color: var(--t); background: color-mix(in srgb, var(--t) 14%, transparent); }
+.chip { color: var(--t); background: color-mix(in srgb, var(--t) 13%, transparent); }
 .dot { background: var(--t); }
 
 /* ───────── Mouvement ───────── */

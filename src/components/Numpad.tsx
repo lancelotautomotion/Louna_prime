@@ -18,7 +18,7 @@ export function Numpad({ onKey, onClear }: { onKey: (k: PadKey) => void; onClear
           onPointerUp={k === 'del' ? () => clearTimeout(hold) : undefined}
           onPointerLeave={k === 'del' ? () => clearTimeout(hold) : undefined}
           className={`press h-[clamp(44px,7.2dvh,58px)] rounded-2xl text-[26px] font-normal num flex items-center justify-center
-            ${k === 'del' || k === ',' ? 'text-label-2 active:bg-fill' : 'bg-fill active:bg-fill-strong'}`}
+            ${k === 'del' || k === ',' ? 'text-label active:bg-fill' : 'bg-fill active:bg-fill-strong'}`}
         >
           {k === 'del' ? <Delete size={24} strokeWidth={1.75} /> : k}
         </button>

@@ -9,7 +9,7 @@ export function ToastHost() {
         flex items-center gap-3 rounded-full pl-5 pr-2 py-2 text-[15px] max-w-[calc(100vw-32px)]">
       <span className="truncate">{t.text}</span>
       {t.action ? (
-        <button className="press rounded-full px-3.5 py-1.5 font-semibold text-accent bg-fill"
+        <button className="press rounded-full px-3.5 py-1.5 font-semibold text-accent-text bg-fill"
           onClick={() => { t.action!.run(); dismissToast() }}>{t.action.label}</button>
       ) : <span className="w-2" />}
     </div>

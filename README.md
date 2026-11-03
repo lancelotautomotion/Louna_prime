@@ -1,6 +1,6 @@
 # Primes — suivi des ventes & primes journalières
 
-PWA minimaliste (style Apple / liquid glass) pour saisir ses ventes au fil de la journée et suivre ses primes automatiquement. 100 % hors ligne, données stockées sur l'appareil.
+PWA minimaliste (style Apple / liquid glass) pour saisir ses ventes au fil de la journée et suivre ses primes automatiquement. Fonctionne 100 % hors ligne ; synchronisation multi-appareils optionnelle via Supabase (voir [SUPABASE.md](SUPABASE.md)).
 
 ## Paliers (par panier TTC)
 | Panier TTC | Prime |
@@ -14,15 +14,16 @@ PWA minimaliste (style Apple / liquid glass) pour saisir ses ventes au fil de la
 Modifiables dans `src/lib/bonus.ts`.
 
 ## Stack
-Vite 8 · React 19 · TypeScript · Tailwind CSS v4 · lucide-react · vite-plugin-pwa (Workbox) · Vercel.
+Vite 8 · React 19 · TypeScript · Tailwind CSS v4 · lucide-react · vite-plugin-pwa (Workbox) · Supabase (auth par code e-mail + Postgres/RLS) · Vercel.
 
 ## Structure
 ```
 src/
-  lib/        bonus.ts (paliers) · store.ts (état + localStorage) · stats.ts · format.ts
+  lib/        bonus.ts (paliers) · store.ts (état + localStorage) · sync.ts (Supabase) · stats.ts · format.ts
               export.ts (CSV/JSON) · useAmountInput.ts · toast.ts · haptics.ts · install.ts
   components/ Numpad · AmountDisplay · SaleRow · EditSaleSheet · Sheet · TabBar · ToastHost · ui.tsx
   views/      TodayView (saisie + dashboard) · StatsView (mois + calendrier) · SettingsView
+supabase/     schema.sql (tables + RLS)
 public/       favicon.svg · icons/ (générées par `npm run icons`)
 vercel.json   rewrites SPA + en-têtes de cache du service worker
 ```

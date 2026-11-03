@@ -1,6 +1,7 @@
 import { ChevronRight, Database, Download, FileSpreadsheet, Minus, Monitor, Moon, Plus, Share, Smartphone, Sun, Trash2, Upload } from 'lucide-react'
 import { useRef, useState, type ReactNode } from 'react'
 import { Avatar, ProfileSheet } from '../components/ProfileSheet'
+import { SyncSection } from '../components/SyncSection'
 import { Card, SectionTitle } from '../components/ui'
 import { exportBackup, exportCsv } from '../lib/export'
 import { dayKey, fmtEuros } from '../lib/format'
@@ -71,6 +72,8 @@ export function SettingsView() {
         </button>
       </Card>
 
+      <SyncSection />
+
       <SectionTitle>Apparence</SectionTitle>
       <Card className="p-1.5">
         <div className="grid grid-cols-3 gap-1" role="radiogroup" aria-label="Thème">
@@ -139,7 +142,7 @@ export function SettingsView() {
       <input ref={file} type="file" accept="application/json,.json" hidden onChange={(e) => onImport(e.target.files?.[0])} />
 
       <p className="flex items-center justify-center gap-1.5 text-[12px] text-label-3 mt-6 mb-4">
-        <Database size={12} /> {sales.length} ventes stockées sur cet appareil · fonctionne hors ligne
+        <Database size={12} /> {sales.length} ventes sur cet appareil · fonctionne hors ligne
       </p>
     </div>
   )
